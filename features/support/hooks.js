@@ -1,5 +1,8 @@
-
+var S = require('string');
+var fs = require('fs');
+var path = require('path');
 var webdriverio = require('webdriverio');
+var shell = require('shelljs');
 
 module.exports = function hooks() {
 
@@ -12,9 +15,8 @@ module.exports = function hooks() {
 
     // Let's say we have a bunch of "maintenance" methods available on our World
     // instance, we can fire some to prepare the application for the next
-    // scenario:
+    // scenario
 
-    //this.createSomeUsers();
     if (!this.browser) {
       if (!browser) {
         var webDriverOptions = this.config.driver;
@@ -26,23 +28,50 @@ module.exports = function hooks() {
     callback();
   });
 
-  this.After(function(callback) {
+  this.After(function(scenario, callback) {
     // Again, "this" is set to the World instance the scenario just finished
     // playing with.
+    var world = this;
 
-    // We can then do some cleansing:
-
-    // this.emptyDatabase();
-    if (this.browser) {
-      if (browser === this.browser) {
-        browser = null;
+    function releaseBrowser() {
+      if (world.browser) {
+        if (browser === world.browser) {
+          browser = null;
+        }
+        world.browser.end();
+        world.browser = null;
       }
-      this.browser.end();
-      this.browser = null;
     }
 
-    // Release control:
-    callback();
+    if (scenario.isFailed()) {
+      var filename = path.join(this.config.driver.screenshots,
+        path.relative(path.resolve(__dirname, '../..'), scenario.getUri())
+          .replace(/\.feature$/, '/' +
+           S(scenario.getName()).slugify() +
+           '.failure.png')
+        );
+      var screenshotDir = path.dirname(filename);
+      if (!fs.existsSync(screenshotDir)) {
+        shell.mkdir('-p', screenshotDir);
+      }
+      this.browser.saveScreenshot(filename, function(err) {
+        if (err) {
+          callback(err);
+          return;
+        }
+        var stream = fs.readFileSync(filename);
+        scenario.attach(stream, 'image/png', function(err) {
+          callback(err);
+        });
+      }, function(err) {
+        releaseBrowser();
+        callback(err);
+      });
+    }
+    else {
+      releaseBrowser();
+      callback();
+    }
   });
 
   this.registerHandler('AfterFeatures', function (event, callback) {

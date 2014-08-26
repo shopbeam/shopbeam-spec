@@ -17,6 +17,7 @@
     "murl": "^0.4.1",
     "require-dir": "^0.1.0",
     "selenium-standalone": "^2.42.2-2.9.0",
+    "shelljs": "^0.3.0",
     "string": "^1.9.1",
     "template": "^0.2.1",
     "webdriverio": "^2.1.2"
