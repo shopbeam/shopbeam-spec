@@ -1,0 +1,12 @@
+driver:
+  desiredCapabilities:
+    browserName: <%= env.BROWSER || 'firefox' %>
+    safari.options:
+      cleanSession: true
+      ensureCleanSession: true
+  screenshots: screenshots
+
+baseUrl: https://www.shopbeam.com
+
+# spawn a selenium server as child process
+spawnSelenium: true

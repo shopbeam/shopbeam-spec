@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+*.rbc
+*.log
+/log/*
+/tmp/*
+**.orig
+chromedriver.log
+screenshots
+reports
+*map.html
