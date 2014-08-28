@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var webdriverio = require('webdriverio');
 var shell = require('shelljs');
+var setupWebdriverCommands = require('../../webdriver-commands/setup');
 
 module.exports = function hooks() {
 
@@ -20,7 +21,10 @@ module.exports = function hooks() {
     if (!this.browser) {
       if (!browser) {
         var webDriverOptions = this.config.driver;
-        browser = webdriverio.remote(webDriverOptions).init();
+        browser = webdriverio.remote(webDriverOptions)
+          .init()
+          .timeoutsImplicitWait(this.config.implicitWait || 5000);
+        setupWebdriverCommands(browser);
       }
       this.browser = browser;
     }

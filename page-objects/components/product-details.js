@@ -1,52 +1,28 @@
 var util = require('util');
 var Component = require('../../util/component');
 
-function ProductDetails(){
-  Component.call(this);
+function ProductDetails(world){
+  Component.call(this, world);
+  this.at('#shopbeam-lightbox > iframe');
 }
 
 util.inherits(ProductDetails, Component);
 
 ProductDetails.prototype.addToBag = function(callback) {
-  this.browser
-  .timeoutsAsyncScript(5000)
-  .executeAsync(function(done){
-
-    function findButton(){
-      var lightboxIFrame = document.querySelector('#shopbeam-lightbox iframe');
-      if (!lightboxIFrame) {
-        return;
+  // TODO: replace this nasty ng-click selectors (eg. both should be [type=submit])
+  var self = this;
+  this.browser.switchToFrame(this.s)
+    .isVisible('.new-experience-dialog', function(err, isVisible) {
+      var browser = self.browser;
+      if (isVisible) {
+        browser = browser
+          .waitForVisible('button[ng-click="closeNewExperienceDialog()"]')
+          .click('button[ng-click="closeNewExperienceDialog()"]');
       }
-      var _window = lightboxIFrame.contentWindow;
-      if (!_window.jQuery) {
-        return;
-      }
-      var welcomeToShopbeam = _window.jQuery('button:contains(Continue):last');
-      if (welcomeToShopbeam.length) {
-        welcomeToShopbeam.click();
-      }
-      var addToBag = _window.jQuery('button:contains("Add To Bag"):last');
-      if (!addToBag.length) {
-        return;
-      }
-      return addToBag;
-    }
-
-    var interval = setInterval(function(){
-      var addToBag = findButton();
-      if (addToBag) {
-        clearInterval(interval);
-        addToBag.click();
-        done();
-      }
-    }, 100);
-  }, function(err, result) {
-    if (err) {
-      callback(err);
-      return;
-    }
-    callback();
-  });
+      browser
+        .click('[ng-click="addToCartHandler()"]')
+        .switchToDefault().call(callback);
+    });
 };
 
 module.exports = ProductDetails;

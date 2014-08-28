@@ -1,11 +1,11 @@
 var util = require('util');
 var Page = require('../../util/page');
 
-function Shoppable(){
-  Page.call(this);
+function Shoppable(world){
+  Page.call(this, world);
   this.products = this.component('products');
   this.productDetails = this.component('product-details');
-  this.cart = this.component('cart');
+  this.checkout = this.component('checkout');
 }
 
 util.inherits(Shoppable, Page);

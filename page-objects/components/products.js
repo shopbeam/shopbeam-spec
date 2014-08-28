@@ -1,8 +1,8 @@
 var util = require('util');
 var Component = require('../../util/component');
 
-function Products(){
-  Component.call(this);
+function Products(world){
+  Component.call(this, world);
 }
 
 util.inherits(Products, Component);

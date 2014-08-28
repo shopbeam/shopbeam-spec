@@ -6,6 +6,7 @@ driver:
       ensureCleanSession: true
   screenshots: screenshots
 
+implicitWait: 5000
 baseUrl: https://www.shopbeam.com
 
 # spawn a selenium server as child process

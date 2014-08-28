@@ -7,7 +7,7 @@ var yaml = require('js-yaml');
 var PageManager = require('../../util/page-manager');
 
 function loadConfig(){
-  var configNames = 'base,' + process.env.CONFIG;
+  var configNames = 'base,users,' + process.env.CONFIG;
   var configOptions = {};
   configNames.split(/[ \,\+]+/g).forEach(function(name) {
     var filename = path.join(__dirname, '../../config/', name.trim() + '.yml');
@@ -30,12 +30,8 @@ var config = loadConfig();
 module.exports = function() {
   this.World = function World(callback) {
     this.config = extend(true, {}, config);
-    this.pageManager = new PageManager(this);
-
-    this.visit = function(targetUrl, callback){
-      return this.pageManager.visit(targetUrl, callback);
-    };
-
+    this.user = extend({}, this.config.users.default);
+    new PageManager(this, path.join(__dirname, '../../page-objects'));
     if (this.config.spawnSelenium) {
       require('../../util/standalone-selenium').ready(callback);
     } else {

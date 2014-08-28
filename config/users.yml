@@ -1,0 +1,18 @@
+users:
+  default:
+    firstName: Aaron
+    lastName: Nymus
+    email: beneidel+shopbeamtest@gmail.com
+    addressLine1: 20th Jay St. #420
+    addressLine2: c/o Shopbeam
+    city: Brooklyn
+    state: NY
+    zip: 11201
+    phone: (800) 490-3216
+    phoneExtension: ""
+    shareWithPublisher: true
+    ccNumber: 4111111111111
+    ccCsc: 111
+    ccExpMonth: August
+    ccExpYear: 2020
+    shippingSameAsBilling: true
