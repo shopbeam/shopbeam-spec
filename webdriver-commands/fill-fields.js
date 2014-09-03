@@ -47,6 +47,7 @@ module.exports = function fillFields(data, callback) {
       } else {
         fieldValue = fieldValue.toString();
       }
+      self = self.scrollIntoView('[name=\"'+field.name+'\"]');
       self = self[method]('[name=\"'+field.name+'\"]', fieldValue);
     });
     self.call(callback);
