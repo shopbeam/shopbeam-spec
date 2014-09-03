@@ -7,3 +7,6 @@ machine:
     SPAWNSELENIUM: true
   node:
     version: 0.10.26
+general:
+  artifacts:
+    - "screenshots"
