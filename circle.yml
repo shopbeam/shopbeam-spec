@@ -3,6 +3,6 @@
 
 machine:
   environment:
-    BROWSERS: Firefox
+    BROWSERS: firefox
   node:
     version: 0.10.26
