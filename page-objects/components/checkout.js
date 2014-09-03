@@ -52,7 +52,7 @@ Checkout.prototype.fillForm = function(callback) {
 
 Checkout.prototype.getConfirmationText = function(callback) {
   this.browser.switchToFrame(this.s)
-    .waitForVisible('.thanks', 40000)
+    .waitForExist('.thanks', 40000)
     .getText('.thanks', callback)
     .switchToDefault();
 };
