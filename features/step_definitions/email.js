@@ -14,7 +14,7 @@ module.exports = function() {
 
     function findMessage(){
       attempt++;
-      if (attempt > 15) {
+      if (attempt > 20) {
         client.close();
         clearInterval(interval);
         callback(lastError || new Error('confirmation email not found'));
@@ -25,7 +25,7 @@ module.exports = function() {
           return (
             /order is being processed/.test(message.title) &&
             message.to[0].address === world.user.email &&
-            (now - message.date.getTime()) < 30000
+            (now - message.date.getTime()) < 60000
           );
         }
       }, function(err, message){
