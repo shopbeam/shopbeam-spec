@@ -1,8 +1,8 @@
 users:
   default:
-    firstName: Aaron
-    lastName: Nymus
-    email: beneidel+shopbeamtest@gmail.com
+    firstName: Shawn
+    lastName: Bin
+    email: shopbeamtest+shawn.bin@gmail.com
     addressLine1: 20th Jay St. #420
     addressLine2: c/o Shopbeam
     city: Brooklyn
@@ -16,3 +16,4 @@ users:
     ccExpMonth: August
     ccExpYear: 2020
     shippingSameAsBilling: true
+  gmailPassword: qweqweasdasd

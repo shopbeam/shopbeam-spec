@@ -4,20 +4,13 @@ var path = require('path');
 var webdriverio = require('webdriverio');
 var shell = require('shelljs');
 var setupWebdriverCommands = require('../../webdriver-commands/setup');
+var interactive = require('../../util/interactive');
 
 module.exports = function hooks() {
 
   var browser;
 
   this.Before(function(callback) {
-    // Just like inside step definitions, "this" is set to a World instance.
-    // It's actually the same instance the current scenario step definitions
-    // will receive.
-
-    // Let's say we have a bunch of "maintenance" methods available on our World
-    // instance, we can fire some to prepare the application for the next
-    // scenario
-
     if (!this.browser) {
       if (!browser) {
         var webDriverOptions = this.config.driver;
@@ -28,13 +21,10 @@ module.exports = function hooks() {
       }
       this.browser = browser;
     }
-
     callback();
   });
 
   this.After(function(scenario, callback) {
-    // Again, "this" is set to the World instance the scenario just finished
-    // playing with.
     var world = this;
 
     function releaseBrowser() {
@@ -68,8 +58,15 @@ module.exports = function hooks() {
           callback(err);
         });
       }, function(err) {
-        releaseBrowser();
-        callback(err);
+        if (!world.config.debug.replOnFail) {
+          releaseBrowser();
+          callback(err);
+          return;
+        }
+        interactive(world, function(){
+          releaseBrowser();
+          callback(err);
+        });
       });
     }
     else {

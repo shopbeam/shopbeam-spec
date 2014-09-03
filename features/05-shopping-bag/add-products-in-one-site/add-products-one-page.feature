@@ -13,5 +13,5 @@ Feature: add products in one site
       | <product> | 1        |
   Examples:
     | product                              |
-    | Fayda Leather Motorcycle Jacket      |
+    | Simona Leopard Print Dress           |
     | Beckett Metallic Envelope Clutch Bag |

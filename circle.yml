@@ -1,0 +1,8 @@
+# This is the circleci config file which is responsible for deployment of the spock repo
+# to both heroku staging and production
+
+machine:
+  environment:
+    BROWSERS: Firefox
+  node:
+    version: 0.10.26

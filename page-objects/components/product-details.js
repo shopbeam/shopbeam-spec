@@ -12,15 +12,19 @@ ProductDetails.prototype.addToBag = function(callback) {
   // TODO: replace this nasty ng-click selectors (eg. both should be [type=submit])
   var self = this;
   this.browser.switchToFrame(this.s)
-    .isVisible('.new-experience-dialog', function(err, isVisible) {
+    .getCssProperty('.new-experience-dialog', 'display', function(err, display) {
+      if (err) {
+        callback(err);
+        return;
+      }
       var browser = self.browser;
-      if (isVisible) {
+      if (display.value !== 'none') {
         browser = browser
           .waitForVisible('button[ng-click="closeNewExperienceDialog()"]')
-          .click('button[ng-click="closeNewExperienceDialog()"]');
+          .clickHarder('button[ng-click="closeNewExperienceDialog()"]');
       }
       browser
-        .click('[ng-click="addToCartHandler()"]')
+        .clickHarder('[ng-click="addToCartHandler()"]')
         .switchToDefault().call(callback);
     });
 };

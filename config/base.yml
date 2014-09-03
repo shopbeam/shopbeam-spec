@@ -1,6 +1,6 @@
 driver:
   desiredCapabilities:
-    browserName: <%= env.BROWSER || 'firefox' %>
+    browserName: <%= env.BROWSERS || env.BROWSER || 'firefox' %>
     safari.options:
       cleanSession: true
       ensureCleanSession: true
@@ -10,4 +10,7 @@ implicitWait: 5000
 baseUrl: https://www.shopbeam.com
 
 # spawn a selenium server as child process
-spawnSelenium: true
+# spawnSelenium: true
+
+debug:
+  replOnFail: <%= env.REPLONFAIL || 'false' %>

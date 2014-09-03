@@ -13,4 +13,4 @@ Feature: buy products in one site
      And I receive a purchase confirmation email
   Examples:
     | product                              |
-    | Fayda Leather Motorcycle Jacket      |
+    | Simona Leopard Print Dress           |
