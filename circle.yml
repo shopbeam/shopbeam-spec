@@ -3,7 +3,7 @@
 
 machine:
   environment:
-    BROWSERS: firefox
+    BROWSERS: chrome
     SPAWNSELENIUM: true
   node:
     version: 0.10.26
