@@ -4,7 +4,8 @@ var path = require('path');
 var fs = require('fs');
 var template = require('template');
 var yaml = require('js-yaml');
-var PageManager = require('../../util/page-manager');
+var PageManager = require('page-object-pattern').PageManager;
+var requireDir = require('require-dir');
 
 function loadConfig(){
   var configNames = 'base,users,' + process.env.CONFIG;
@@ -31,7 +32,14 @@ module.exports = function() {
   this.World = function World(callback) {
     this.config = extend(true, {}, config);
     this.user = extend({}, this.config.users.default);
-    new PageManager(this, path.join(__dirname, '../../page-objects'));
+
+    var pageManager = new PageManager(this);
+    var dir = path.join(__dirname, '../../page-objects');
+    var pages = requireDir(path.join(dir, 'pages'));
+    var elements = requireDir(path.join(dir, 'elements'));
+    pageManager.define(pages);
+    pageManager.define(elements);
+
     if (this.config.spawnSelenium) {
       require('../../util/standalone-selenium').ready(callback);
     } else {
